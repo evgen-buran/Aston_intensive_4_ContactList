@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">Aston Contact HomeWork4</string>
+    <string name="app_name">Aston Contact List</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Name">Имя</string>
+    <string name="SecondName">Фамилия</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="tag_item_XML">item</string>
+    <string name="add_btn_text">Добавить контакт</string>
+    <string name="phone">Телефон</string>
+    <string name="man_gender">Мужской</string>
+    <string name="woman_gender">Женский</string>
+    <string name="edit_btn_text">Изменить контакт</string>
+    <string name="unavailable_delete">Удаление элементов временно недоступно:(</string>
+    <string name="testId">#1</string>
+    <string name="tools_name">Василий</string>
+    <string name="tools_secondName">Васильев</string>
+    <string name="tools_phone">+79222222222</string>
 </resources>

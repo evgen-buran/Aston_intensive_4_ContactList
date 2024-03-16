@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/app_margin"
+    android:layout_marginTop="@dimen/app_margin"
+    android:layout_marginRight="@dimen/app_margin"
+    android:layout_marginBottom="@dimen/app_margin"
+    android:background="@drawable/background_card"
+    app:cardElevation="@dimen/elevation">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primaryContainer"
+        android:padding="@dimen/app_padding">
+
+        <TextView
+            android:id="@+id/tvIdContactItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondary"
+            android:textSize="@dimen/sub_text_size"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/testId" />
+
+        <ImageView
+            android:id="@+id/ivPhotoItem"
+            android:layout_width="@dimen/avatar_size_medium"
+            android:layout_height="@dimen/avatar_size_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvNameItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/app_margin"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/name_text_size"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/ivPhotoItem"
+            app:layout_constraintTop_toTopOf="@+id/ivPhotoItem"
+            tools:text="@string/tools_name" />
+
+        <TextView
+            android:id="@+id/tvSecondNameItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/app_margin"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/name_text_size"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/tvNameItem"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/tools_secondName" />
+
+        <TextView
+            android:id="@+id/tvPhoneItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondary"
+            android:textSize="@dimen/phone_text_size"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvNameItem"
+            app:layout_constraintTop_toBottomOf="@+id/tvNameItem"
+            tools:text="@string/tools_phone" />
+
+        <CheckBox
+            android:id="@+id/checkBoxItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/app_margin"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

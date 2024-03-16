@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="app_margin">8dp</dimen>
+    <dimen name="big_margin">24dp</dimen>
+    <dimen name="app_padding">8dp</dimen>
+    <dimen name="name_text_size">18sp</dimen>
+    <dimen name="phone_text_size">14sp</dimen>
+    <dimen name="avatar_size_medium">55dp</dimen>
+    <dimen name="avatar_size_big">85dp</dimen>
+    <dimen name="elevation">6dp</dimen>
+    <dimen name="corner_radius">4dp</dimen>
+    <dimen name="stroke_width">2dp</dimen>
+    <dimen name="sub_text_size">12sp</dimen>
+</resources>

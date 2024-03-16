@@ -6,7 +6,7 @@ plugins {
 android {
     namespace = "com.buranchikov.astoncontacthomework4"
     compileSdk = 33
-
+    buildFeatures { viewBinding = true }
     defaultConfig {
         applicationId = "com.buranchikov.astoncontacthomework4"
         minSdk = 24
@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+    implementation("io.coil-kt:coil:2.6.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
