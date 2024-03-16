@@ -94,7 +94,7 @@ class MainFragment : Fragment() {
     }
 
     private fun setContactsListFromXML(): MutableList<Contact> {
-        val dataXml = resources.getXml(R.xml.contacts_xml_small)
+        val dataXml = resources.getXml(R.xml.contacts_xml)
         val listContact = mutableListOf<Contact>()
 
         var id = 0
