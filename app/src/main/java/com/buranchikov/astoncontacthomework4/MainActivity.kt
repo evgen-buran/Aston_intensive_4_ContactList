@@ -65,3 +65,7 @@ private fun getFragment(fragment: Fragment) {
         fragment
     ).addToBackStack(null).commit()
 }
+      companion object {
+        var isDeleteMode = false
+    }
+}
