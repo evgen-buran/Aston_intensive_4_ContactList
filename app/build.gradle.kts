@@ -9,7 +9,7 @@ android {
     buildFeatures { viewBinding = true }
     defaultConfig {
         applicationId = "com.buranchikov.astoncontacthomework4"
-        minSdk = 24
+        minSdk = 21
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

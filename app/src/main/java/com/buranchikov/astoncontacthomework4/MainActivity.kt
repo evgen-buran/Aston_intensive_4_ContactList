@@ -9,63 +9,79 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.buranchikov.astoncontacthomework4.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), DeleteModeChange {
 
-private lateinit var binding: ActivityMainBinding
-private lateinit var fragmentManager: FragmentManager
-private val mainFragment = MainFragment()
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var fragmentManager: FragmentManager
+    private val mainFragment = MainFragment()
+    private var isDeleteMode = false
+    private var menuDeleteItem: MenuItem? = null
 
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    binding = ActivityMainBinding.inflate(layoutInflater)
-    setContentView(binding.root)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    val toolbar = binding.toolbar
-    setSupportActionBar(toolbar)
+        val toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
 
-    fragmentManager = supportFragmentManager
-    getFragment(mainFragment)
+        fragmentManager = supportFragmentManager
+        getFragment(mainFragment)
 
-    binding.btnCancel.setOnClickListener {
-        binding.btnDelete.visibility = View.GONE
-        binding.btnCancel.visibility = View.GONE
-        mainFragment.toggleDeleteMode()
-        mainFragment.setVisibleFab(View.VISIBLE)
-        mainFragment.clearSelected()
+        binding.btnCancel.setOnClickListener {
+            resetDeleteMode()
+            showViewGroup(isDeleteMode)
+            mainFragment.notifyList()
+            mainFragment.clearSelected()
 
+        }
+        binding.btnDelete.setOnClickListener {
+            mainFragment.deleteSelectedItems()
+
+        }
     }
-    binding.btnDelete.setOnClickListener {
-        mainFragment.deleteSelectedItems()
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        menuDeleteItem = menu?.findItem(R.id.deleteItemMenu)!!
+        return true
     }
-}
-override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-    menuInflater.inflate(R.menu.main_menu, menu)
-    return true
-}
-override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    mainFragment.toggleDeleteMode()
-    if (isDeleteMode) {
-        binding.btnCancel.visibility = View.VISIBLE
-        binding.btnDelete.visibility = View.VISIBLE
-        mainFragment.setVisibleFab(View.INVISIBLE)
-    } else {
-        binding.btnCancel.visibility = View.GONE
-        binding.btnDelete.visibility = View.GONE
-        mainFragment.setVisibleFab(View.VISIBLE)
-        mainFragment.clearSelected()
-    }
-    return true
-}
 
-private fun getFragment(fragment: Fragment) {
-    fragmentManager.beginTransaction().replace(
-        R.id.fragmentContainerView,
-        fragment
-    ).addToBackStack(null).commit()
-}
-      companion object {
-        var isDeleteMode = false
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        setDeleteMode()
+        showViewGroup(isDeleteMode)
+        mainFragment.notifyList()
+        return true
+    }
+
+    private fun getFragment(fragment: Fragment) {
+        fragmentManager.beginTransaction().replace(
+            R.id.fragmentContainerView,
+            fragment
+        ).commit()
+    }
+
+    override fun showViewGroup(deleteMode: Boolean) {
+        if (deleteMode) {
+            binding.buttonsContainer.visibility = View.VISIBLE
+            mainFragment.setVisibleFab(View.INVISIBLE)
+        } else {
+            binding.buttonsContainer.visibility = View.GONE
+            mainFragment.setVisibleFab(View.VISIBLE)
+            mainFragment.clearSelected()
+        }
+    }
+    override fun setDeleteMode() {
+        isDeleteMode = true
+    }
+
+    override fun resetDeleteMode() {
+        isDeleteMode = false
+    }
+    override fun isDeleteMode() = isDeleteMode
+    override fun setVisibilityMenuDelete(mode:Boolean) {
+        menuDeleteItem?.isVisible = mode
+
     }
 }
