@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/app_padding"
+    tools:context=".EditContactFragment">
+
+    <TextView
+        android:id="@+id/tvIdContactItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#1"
+        android:textColor="@color/secondary"
+        android:textSize="@dimen/sub_text_size"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivPhotoItem"
+        android:layout_width="@dimen/avatar_size_big"
+        android:layout_height="@dimen/avatar_size_big"
+
+        app:layout_constraintBottom_toBottomOf="@+id/etSecondNameDetail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etNameDetail"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <EditText
+        android:id="@+id/etNameDetail"
+        style="@style/editTextStyle"
+        android:hint="@string/Name"
+        app:layout_constraintEnd_toStartOf="@+id/tvIdContactItem"
+        app:layout_constraintStart_toEndOf="@+id/ivPhotoItem"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etSecondNameDetail"
+        style="@style/editTextStyle"
+        android:layout_marginTop="@dimen/app_margin"
+        android:hint="@string/SecondName"
+        app:layout_constraintStart_toStartOf="@+id/etNameDetail"
+        app:layout_constraintTop_toBottomOf="@+id/etNameDetail" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
