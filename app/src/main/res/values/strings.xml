@@ -17,4 +17,7 @@
     <string name="tools_name">Василий</string>
     <string name="tools_secondName">Васильев</string>
     <string name="tools_phone">+79222222222</string>
+    <string name="isdeletemode">isDeleteMode</string>
+    <string name="contactslist_serial_key">contactsList</string>
+    <string name="isdeletemode_key">isDeleteMode</string>
 </resources>

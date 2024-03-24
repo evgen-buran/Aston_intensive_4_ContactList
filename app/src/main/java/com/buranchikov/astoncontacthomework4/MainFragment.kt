@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.XmlResourceParser
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,20 +12,20 @@ import androidx.fragment.app.setFragmentResultListener
 import com.buranchikov.astoncontacthomework4.data.Contact
 import com.buranchikov.astoncontacthomework4.databinding.FragmentMainBinding
 
-class MainFragment() : Fragment() {
-    private val TAG = "myLog"
-    private val LAST_ID = "lastId"
-    private val NEW_CONTACT = "newContact"
-    private val NEW_CONTACT_REQUEST = "newContactRequest"
-    private val OLD_CONTACT = "oldContact"
+private const val LAST_ID = "lastId"
+private const val NEW_CONTACT = "newContact"
+private const val NEW_CONTACT_REQUEST = "newContactRequest"
+private const val OLD_CONTACT = "oldContact"
+
+class MainFragment : Fragment() {
+
     private lateinit var binding: FragmentMainBinding
     private var contactsList = mutableListOf<Contact>()
-    lateinit var instanceActivity: DeleteModeChange
+    private lateinit var instanceActivity: DeleteModeChange
 
     private lateinit var adapter: MainAdapter
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d(TAG, "onAttach: Fragment")
         instanceActivity = context as MainActivity
         adapter = MainAdapter(instanceActivity as MainActivity) { contact ->
             editContact(contact)
@@ -38,17 +37,20 @@ class MainFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
-        Log.d(TAG, "onCreateView: Fragment")
         instanceActivity.setVisibilityMenuDelete(true)
         if (savedInstanceState != null) {
-            val contactsArrayList =
-                savedInstanceState.getSerializable("contactsList") as ArrayList<Contact>
+            val contactsArrayList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                savedInstanceState.getSerializable(
+                    getString(R.string.contactslist_serial_key),
+                    Contact::class.java
+                ) as ArrayList<Contact>
+            } else savedInstanceState.getSerializable(getString(R.string.contactslist_serial_key)) as ArrayList<Contact>
+
             contactsList.clear()
             contactsList.addAll(contactsArrayList)
-            val isDeleteMode = savedInstanceState.getBoolean("isDeleteMode", false)
-            if (isDeleteMode) {
-                instanceActivity.setDeleteMode()
-            }
+            val isDeleteMode =
+                savedInstanceState.getBoolean(getString(R.string.isdeletemode_key), false)
+            if (isDeleteMode) instanceActivity.setDeleteMode()
             submitList()
         } else if (contactsList.isEmpty()) contactsList = setContactsListFromXML()
 
@@ -57,10 +59,6 @@ class MainFragment() : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
-
-
-        Log.d(TAG, "onStart: Fragment")
         setFragmentResultListener(NEW_CONTACT_REQUEST) { _, bundle ->
             val newContact = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 bundle.getSerializable(NEW_CONTACT, Contact::class.java)
@@ -198,13 +196,8 @@ class MainFragment() : Fragment() {
         contactsList.forEach { it.isSelected = false }
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        Log.d(TAG, "onDetach: Fragment")
-    }
-
     companion object {
-       private var instance: MainFragment? = null
+        private var instance: MainFragment? = null
         fun newInstance(): MainFragment {
             if (instance == null)
                 instance = MainFragment()

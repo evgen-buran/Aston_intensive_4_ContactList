@@ -1,17 +1,15 @@
 package com.buranchikov.astoncontacthomework4
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.buranchikov.astoncontacthomework4.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), DeleteModeChange {
-    private val TAG = "myLog"
     private lateinit var binding: ActivityMainBinding
     private val fragmentManager = supportFragmentManager
     private val mainFragment = MainFragment.newInstance()
@@ -20,26 +18,39 @@ class MainActivity : AppCompatActivity(), DeleteModeChange {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate: Activity")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
-
         getFragment(mainFragment)
+        isDeleteMode = savedInstanceState?.getBoolean(getString(R.string.isdeletemode)) ?: false
 
         binding.btnCancel.setOnClickListener {
+            val mainFragment =
+                fragmentManager.findFragmentById(R.id.fragmentContainerView) as? MainFragment
             resetDeleteMode()
             showViewGroup(isDeleteMode)
-            mainFragment.notifyList()
-            mainFragment.clearSelected()
-
+            mainFragment?.notifyList()
+            mainFragment?.clearSelected()
         }
         binding.btnDelete.setOnClickListener {
-            mainFragment.deleteSelectedItems()
+            val mainFragment =
+                fragmentManager.findFragmentById(R.id.fragmentContainerView) as? MainFragment
+            mainFragment?.deleteSelectedItems()
         }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        showViewGroup(isDeleteMode())
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(getString(R.string.isdeletemode), isDeleteMode)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -49,9 +60,11 @@ class MainActivity : AppCompatActivity(), DeleteModeChange {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val mainFragment =
+            fragmentManager.findFragmentById(R.id.fragmentContainerView) as? MainFragment
         setDeleteMode()
         showViewGroup(isDeleteMode)
-        mainFragment.notifyList()
+        mainFragment?.notifyList()
         return true
     }
 
@@ -65,14 +78,18 @@ class MainActivity : AppCompatActivity(), DeleteModeChange {
         }
     }
 
-    override fun showViewGroup(deleteMode: Boolean) {
-        if (deleteMode) {
+    override fun showViewGroup(isDeleteMode: Boolean) {
+        if (isDeleteMode) {
             binding.buttonsContainer.visibility = View.VISIBLE
-            mainFragment.setVisibleFab(View.INVISIBLE)
+            val mainFragment =
+                fragmentManager.findFragmentById(R.id.fragmentContainerView) as? MainFragment
+            mainFragment?.setVisibleFab(View.GONE)
         } else {
             binding.buttonsContainer.visibility = View.GONE
-            mainFragment.setVisibleFab(View.VISIBLE)
-            mainFragment.clearSelected()
+            val mainFragment =
+                fragmentManager.findFragmentById(R.id.fragmentContainerView) as? MainFragment
+            mainFragment?.setVisibleFab(View.VISIBLE)
+            mainFragment?.clearSelected()
         }
     }
 
@@ -87,22 +104,5 @@ class MainActivity : AppCompatActivity(), DeleteModeChange {
     override fun isDeleteMode() = isDeleteMode
     override fun setVisibilityMenuDelete(mode: Boolean) {
         menuDeleteItem?.isVisible = mode
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG, "onStart: Activity")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop: Activity")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        Log.d(TAG, "onDestroy: Activity")
     }
 }

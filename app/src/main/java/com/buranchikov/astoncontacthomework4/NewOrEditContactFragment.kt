@@ -11,11 +11,13 @@ import androidx.fragment.app.setFragmentResult
 import com.buranchikov.astoncontacthomework4.data.Contact
 import com.buranchikov.astoncontacthomework4.databinding.FragmentNewContactBinding
 
+private const val LAST_ID = "lastId"
+private const val NEW_CONTACT = "newContact"
+private const val NEW_CONTACT_REQUEST = "newContactRequest"
+private const val OLD_CONTACT = "oldContact"
+
 class NewOrEditContactFragment : Fragment() {
-    private val LAST_ID = "lastId"
-    private val NEW_CONTACT = "newContact"
-    private val NEW_CONTACT_REQUEST = "newContactRequest"
-    private val OLD_CONTACT = "oldContact"
+
 
     lateinit var binding: FragmentNewContactBinding
     private var currentId = 0
@@ -66,7 +68,6 @@ class NewOrEditContactFragment : Fragment() {
             }
         }
 
-        //-----------------------------------
         binding.btnAddNewContact.setOnClickListener {
             name = binding.etNameNew.text.toString()
             secondName = binding.etSecondNameNew.text.toString()

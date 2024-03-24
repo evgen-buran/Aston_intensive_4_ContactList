@@ -13,11 +13,11 @@ import coil.size.Scale
 import com.buranchikov.astoncontacthomework4.data.Contact
 import com.buranchikov.astoncontacthomework4.databinding.ContactItemBinding
 
-const val NAME_KEY = "name_key"
-const val SECOND_NAME_KEY = "second_name_key"
-const val PHONE_KEY = "phone_key"
-const val PHOTO_KEY = "photo_key"
-const val GENDER_KEY = "gender_key"
+private const val NAME_KEY = "name_key"
+private const val SECOND_NAME_KEY = "second_name_key"
+private const val PHONE_KEY = "phone_key"
+private const val PHOTO_KEY = "photo_key"
+private const val GENDER_KEY = "gender_key"
 
 class MainAdapter(val mainActivity: MainActivity, private val onClickAction: (Contact) -> Unit) :
     ListAdapter<Contact, MainAdapter.ContactViewHolder>(DiffUtilContact()) {
@@ -26,7 +26,7 @@ class MainAdapter(val mainActivity: MainActivity, private val onClickAction: (Co
         RecyclerView.ViewHolder(binding.root) {
         fun bind(contact: Contact) {
             binding.checkBoxItem.visibility =
-                if (mainActivity.isDeleteMode()) View.VISIBLE else View.INVISIBLE
+                if (mainActivity.isDeleteMode()!!) View.VISIBLE else View.INVISIBLE
             binding.checkBoxItem.isChecked = contact.isSelected
             if (contact.isSelected) binding.checkBoxItem.isChecked
 
@@ -83,25 +83,6 @@ class MainAdapter(val mainActivity: MainActivity, private val onClickAction: (Co
 
         } else super.onBindViewHolder(holder, position, payloads)
     }
-
-//    fun saveStateSelectItem(outState: Bundle) {
-//        val selectedItemsIds = mutableListOf<Int>()
-//        currentList.forEachIndexed { index, contact ->
-//            if (contact.isSelected) {
-//                selectedItemsIds.add(contact.id)
-//            }
-//        }
-//        outState.putIntegerArrayList("selectedItemsIds", ArrayList(selectedItemsIds))
-//    }
-//
-//    fun restoreStateSelectItem(savedInstanceState: Bundle?) {
-//        val selectedItemsIds = savedInstanceState?.getIntegerArrayList("selectedItemsIds")
-//        selectedItemsIds?.forEach { id ->
-//            currentList.find { it.id == id }?.isSelected = true
-//        }
-//    }
-
-
     class DiffUtilContact : DiffUtil.ItemCallback<Contact>() {
         override fun areItemsTheSame(oldItem: Contact, newItem: Contact): Boolean {
             return oldItem.id == newItem.id
