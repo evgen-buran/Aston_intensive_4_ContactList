@@ -7,7 +7,7 @@ data class Contact(
     val name: String,
     val secondName: String,
     val phone: String,
-    val photoURL: String = "https://api.lorem.space/image/face?w=100&h=100",
+    val photoURL: String = "https://lipsum.app/random/100x100",
     val gender: String,
     var isSelected: Boolean = false
 ):Serializable

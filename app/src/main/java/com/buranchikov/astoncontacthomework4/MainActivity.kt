@@ -2,6 +2,7 @@ package com.buranchikov.astoncontacthomework4
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -10,23 +11,23 @@ import androidx.fragment.app.FragmentManager
 import com.buranchikov.astoncontacthomework4.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), DeleteModeChange {
-
+    private val TAG = "myLog"
     private lateinit var binding: ActivityMainBinding
-    private lateinit var fragmentManager: FragmentManager
-    private val mainFragment = MainFragment()
+    private val fragmentManager = supportFragmentManager
+    private val mainFragment = MainFragment.newInstance()
     private var isDeleteMode = false
     private var menuDeleteItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.d(TAG, "onCreate: Activity")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
-        fragmentManager = supportFragmentManager
+
         getFragment(mainFragment)
 
         binding.btnCancel.setOnClickListener {
@@ -38,7 +39,6 @@ class MainActivity : AppCompatActivity(), DeleteModeChange {
         }
         binding.btnDelete.setOnClickListener {
             mainFragment.deleteSelectedItems()
-
         }
     }
 
@@ -56,10 +56,13 @@ class MainActivity : AppCompatActivity(), DeleteModeChange {
     }
 
     private fun getFragment(fragment: Fragment) {
-        fragmentManager.beginTransaction().replace(
-            R.id.fragmentContainerView,
-            fragment
-        ).commit()
+        val currentFragment = fragmentManager.findFragmentById(R.id.fragmentContainerView)
+        if (currentFragment == null) {
+            fragmentManager.beginTransaction().replace(
+                R.id.fragmentContainerView,
+                fragment
+            ).commit()
+        }
     }
 
     override fun showViewGroup(deleteMode: Boolean) {
@@ -72,6 +75,7 @@ class MainActivity : AppCompatActivity(), DeleteModeChange {
             mainFragment.clearSelected()
         }
     }
+
     override fun setDeleteMode() {
         isDeleteMode = true
     }
@@ -79,9 +83,26 @@ class MainActivity : AppCompatActivity(), DeleteModeChange {
     override fun resetDeleteMode() {
         isDeleteMode = false
     }
+
     override fun isDeleteMode() = isDeleteMode
-    override fun setVisibilityMenuDelete(mode:Boolean) {
+    override fun setVisibilityMenuDelete(mode: Boolean) {
         menuDeleteItem?.isVisible = mode
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart: Activity")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop: Activity")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Log.d(TAG, "onDestroy: Activity")
     }
 }

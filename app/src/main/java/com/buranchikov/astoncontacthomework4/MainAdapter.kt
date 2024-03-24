@@ -22,12 +22,13 @@ const val GENDER_KEY = "gender_key"
 class MainAdapter(val mainActivity: MainActivity, private val onClickAction: (Contact) -> Unit) :
     ListAdapter<Contact, MainAdapter.ContactViewHolder>(DiffUtilContact()) {
 
-   inner class ContactViewHolder(val binding: ContactItemBinding) :
+    inner class ContactViewHolder(val binding: ContactItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(contact: Contact) {
             binding.checkBoxItem.visibility =
                 if (mainActivity.isDeleteMode()) View.VISIBLE else View.INVISIBLE
             binding.checkBoxItem.isChecked = contact.isSelected
+            if (contact.isSelected) binding.checkBoxItem.isChecked
 
             binding.tvIdContactItem.text = "#${contact.id}"
             binding.tvNameItem.text = contact.name
@@ -82,6 +83,24 @@ class MainAdapter(val mainActivity: MainActivity, private val onClickAction: (Co
 
         } else super.onBindViewHolder(holder, position, payloads)
     }
+
+//    fun saveStateSelectItem(outState: Bundle) {
+//        val selectedItemsIds = mutableListOf<Int>()
+//        currentList.forEachIndexed { index, contact ->
+//            if (contact.isSelected) {
+//                selectedItemsIds.add(contact.id)
+//            }
+//        }
+//        outState.putIntegerArrayList("selectedItemsIds", ArrayList(selectedItemsIds))
+//    }
+//
+//    fun restoreStateSelectItem(savedInstanceState: Bundle?) {
+//        val selectedItemsIds = savedInstanceState?.getIntegerArrayList("selectedItemsIds")
+//        selectedItemsIds?.forEach { id ->
+//            currentList.find { it.id == id }?.isSelected = true
+//        }
+//    }
+
 
     class DiffUtilContact : DiffUtil.ItemCallback<Contact>() {
         override fun areItemsTheSame(oldItem: Contact, newItem: Contact): Boolean {
